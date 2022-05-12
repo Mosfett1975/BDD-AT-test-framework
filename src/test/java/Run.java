@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        tags = "@test",
+        tags = "@api",
         features = "src/test/features",
         glue = {"at.framework"},
         plugin = {

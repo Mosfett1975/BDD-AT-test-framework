@@ -13,19 +13,19 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 public class BrowserSteps {
 
 
-    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
-    @И("^совершен переход по ссылке \"([^\"]*)\"$")
-    public void openUrl(String address) {
-        String url = checkValueAndReturnString(address);
-        open(url);
-    }
+//    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
+//    @И("^совершен переход по ссылке \"([^\"]*)\"$")
+//    public void openUrl(String address) {
+//        String url = checkValueAndReturnString(address);
+//        open(url);
+//    }
 
-    @Когда("^совершен переход по ссылке из переменной \"([^\"]*)\"$")
-    @И("^совершен переход по ссылке из переменной \"([^\"]*)\"$")
-    public void openUrlVar(String var) {
-        String url = Variables.getVar(var);
-        open(url);
-    }
+//    @Когда("^совершен переход по ссылке из переменной \"([^\"]*)\"$")
+//    @И("^совершен переход по ссылке из переменной \"([^\"]*)\"$")
+//    public void openUrlVar(String var) {
+//        String url = Variables.getVar(var);
+//        open(url);
+//    }
 
     @И("^браузер раскрыт на весь экран$")
     public void fullScreen() {
