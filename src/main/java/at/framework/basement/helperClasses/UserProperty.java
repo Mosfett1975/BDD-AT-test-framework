@@ -1,7 +1,7 @@
 package at.framework.basement.helperClasses;
 
 
-import com.google.common.base.Strings;
+import io.restassured.response.Response;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +13,10 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static at.framework.basement.variables.Variables.getVar;
 
 @Log4j2
 public class UserProperty {
@@ -40,16 +44,44 @@ public class UserProperty {
         return prop;
     }
 
-public static String getValueFromFile(String value){
+public static String getValueFromFileOrVar(String value){
         String stringPath = StringUtils.EMPTY;
+        String valueFromProp = checkValueAndReturnString(value);
+        if (StringUtils.isNoneBlank(valueFromProp))
+            return valueFromProp;
         try{
             Path path = Paths.get(value);
             stringPath = path.toString();
             String valueFromFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
             return valueFromFile;
-        } catch (IOException | InvalidPathException e) {log.trace("Значение не найдено");}
-        log.trace("Значение в файле не найдено, будет использовано входное значение");
+        } catch (IOException | InvalidPathException e) {log.trace("Value not found in file");}
+        if (checkValueAndReturnString(value) !=null){
+            Object var = checkValueAndReturnString(value);
+            if (var instanceof Response) {
+                return  ((Response) var).getBody().asString();
+            }
+            return (String) var;
+        }
+        log.trace("Value not found, value will be use from input parameter");
         return value;
+}
+
+public static String getValueWithPropParam (String addParamToURL){
+        String patternForProperty = "\\{([^{}]+)\\}";
+        String parsed = "";
+    Pattern p = Pattern.compile(patternForProperty);
+    Matcher m = p.matcher(addParamToURL);
+    while (m.find()){
+        String varName = m.group(1);
+        String value =getVar(varName);
+        if (value == null){
+            throw  new IllegalArgumentException("Value was not found in properties");
+        }
+        parsed = m.replaceFirst(value);
+        m = p.matcher(parsed);
+        if (parsed.isEmpty()) {parsed = addParamToURL;}
+    }
+    return parsed;
 }
 
     @SneakyThrows(IOException.class)

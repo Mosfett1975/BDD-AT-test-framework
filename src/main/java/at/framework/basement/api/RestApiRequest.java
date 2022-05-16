@@ -11,18 +11,30 @@ import lombok.extern.log4j.Log4j2;
 import java.util.List;
 
 import static at.framework.basement.helperClasses.UserProperty.*;
+import static at.framework.basement.helperClasses.UserProperty.checkValueAndReturnString;
+import static at.framework.basement.variables.Variables.setVar;
 import static java.lang.String.format;
 
 @Log4j2
 public class RestApiRequest {
 
+public static String extractedUrl;
+    public static String baseURi;
+
+
+
+
+
     public static Response sendRequest(String method, String url, DataTable dataTable){
-        url = checkValueAndReturnString(url);
+        String baseURi = getProperty("baseURi");
+        RestAssured.baseURI = baseURi;
+        extractedUrl = getProperty(url);
         RequestSender request = createRequest(dataTable);
-        return request.request(Method.valueOf(method), url);
+        return request.request(Method.valueOf(method), extractedUrl);
     }
 
     private static RequestSender createRequest(DataTable dataTable) {
+        String valueWithParam = null;
         RequestSpecification request = RestAssured.given();
         String value = null;
         for (List<String> parameterOfRequest : dataTable.asLists()) {
@@ -30,7 +42,7 @@ public class RestApiRequest {
             //Проверка наличия параметров в properties
             String name = checkValueAndReturnString(parameterOfRequest.get(1));
             value = checkValueAndReturnString(parameterOfRequest.get(2));
-            value = getValueFromFile(value);
+            value = getValueFromFileOrVar(value);
 
             switch (type.toUpperCase()) {
                 case "BASIC_AUTHENTICATION": {
@@ -58,6 +70,8 @@ public class RestApiRequest {
                     break;
                 }
                 case "PATH_PARAMETER": {
+//                    setVar(name, value);
+//                    extractedUrl=getValueWithPropParam(extractedUrl);
                     request.pathParam(name, value);
                     break;
                 }
@@ -71,7 +85,8 @@ public class RestApiRequest {
                     break;
                 }
                 case "BODY": {
-                    request.body(value);
+                    valueWithParam = getValueWithPropParam(value);
+                    request.body(valueWithParam);
                     break;
                 }
                 default: {
