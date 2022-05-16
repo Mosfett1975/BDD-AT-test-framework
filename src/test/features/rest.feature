@@ -11,8 +11,8 @@
 | BODY   | json         | json.post.pet    |
     Тогда в ответе "response" statusCode: 200
 
-#    И выполнен запрос GET на URL "url.pet.petId" с параметрами из таблицы, ответ сохранен в переменную "response"
-#      | HEADER         | accept | application/json |
-#      | PATH_PARAMETER | petId  | 17122019         |
-#    Тогда в ответе "response" statusCode: 200
+    И выполнен запрос GET на URL "url.pet.petId" с параметрами из таблицы, ответ сохранен в переменную "response"
+      | HEADER         | accept | application/json |
+      | PATH_PARAMETER | petId  | 17122019         |
+    Тогда в ответе "response" statusCode: 200
 

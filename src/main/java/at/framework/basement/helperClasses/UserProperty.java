@@ -46,9 +46,6 @@ public class UserProperty {
 
 public static String getValueFromFileOrVar(String value){
         String stringPath = StringUtils.EMPTY;
-        String valueFromProp = checkValueAndReturnString(value);
-        if (StringUtils.isNoneBlank(valueFromProp))
-            return valueFromProp;
         try{
             Path path = Paths.get(value);
             stringPath = path.toString();
@@ -92,6 +89,9 @@ public static String getValueWithPropParam (String addParamToURL){
     }
 
     public static String getProperty(String propertyName) {
+        if(loadProperties().getProperty(propertyName)==null){
+            return propertyName;
+        }
         return loadProperties().getProperty(propertyName);
     }
     public static String loadProperty(String propertyName, String defaultValue) {

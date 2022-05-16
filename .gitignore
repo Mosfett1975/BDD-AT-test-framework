@@ -1,4 +1,9 @@
 # Compiled class file
+.allure
+build/
+logs/
+target/
+
 *.class
 
 # Log file

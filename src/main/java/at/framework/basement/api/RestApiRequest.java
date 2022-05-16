@@ -9,10 +9,8 @@ import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
 import java.util.List;
-
 import static at.framework.basement.helperClasses.UserProperty.*;
 import static at.framework.basement.helperClasses.UserProperty.checkValueAndReturnString;
-import static at.framework.basement.variables.Variables.setVar;
 import static java.lang.String.format;
 
 @Log4j2
@@ -70,8 +68,6 @@ public static String extractedUrl;
                     break;
                 }
                 case "PATH_PARAMETER": {
-//                    setVar(name, value);
-//                    extractedUrl=getValueWithPropParam(extractedUrl);
                     request.pathParam(name, value);
                     break;
                 }
@@ -85,8 +81,7 @@ public static String extractedUrl;
                     break;
                 }
                 case "BODY": {
-                    valueWithParam = getValueWithPropParam(value);
-                    request.body(valueWithParam);
+                    request.body(value);
                     break;
                 }
                 default: {
