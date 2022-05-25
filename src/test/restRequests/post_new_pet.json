@@ -1,17 +1,17 @@
 {
-  "id": 17122019,
+  "id": 100500,
   "category": {
-    "id": 17122019,
-    "name": "cat"
+    "id": 100500,
+    "name": "dog"
   },
-  "name": "tomas",
+  "name": "Fido",
   "photoUrls": [
     "string"
   ],
   "tags": [
     {
-      "id": 17122019,
-      "name": "domestic cat"
+      "id": 100500,
+      "name": "Street dog"
     }
   ],
   "status": "available"

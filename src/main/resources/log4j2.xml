@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration monitorinterval="30" status="info" strict="true">
+<Configuration status="WARN">
+
     <Properties>
-        <Property name="filename">logs/test_log.log</Property>
-        <Property name="logLevelPattern">%5p</Property>
-        <Property name="logExceptoinConvertionWord">%xwEx</Property>
-        <Property name="logPatternConsole">%d{yyyy-MM-dd HH:mm:ss.SSS} ${logLevelPattern} [%20.20t] %C{10} : %m%n
-        </Property>
-        <Property name="logPatternRP">[%d{HH:mm:ss}] [%20.20t] %-5p (%F:%L) - %m%n</Property>
+        <Property name="LOG_DIR">./test-output/logs/</Property>
+        <Property name="ARCHIVE">${LOG_DIR}/archive</Property>
+        <Property name="FILE_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %c{10}:%L - %msg%n</Property>
+        <Property name="CONSOLE_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %c{0}:%L - %msg%n</Property>
     </Properties>
+
     <Appenders>
-        <Console name="Console">
-            <PatternLayout pattern="${logPatternConsole}"/>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${CONSOLE_PATTERN}"/>
         </Console>
-        <RollingRandomAccessFile name="File" fileName="${filename}"
-                                 filePattern="logs/%d{yyyy-MM-dd}-%i.test-ef10-bms.log.gz">
-            <PatternLayout charset="UTF-8" pattern="${logPatternConsole}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-                <OnStartupTriggeringPolicy/>
-            </Policies>
-        </RollingRandomAccessFile>
+        <RollingFile name="RootLogger"
+                     fileName="${LOG_DIR}/capture_all.log"
+                     filePattern="${ARCHIVE}/%d{yyyy-MM-dd-hh-mm}_CaptureAll.gz">
+            <PatternLayout pattern="${FILE_PATTERN}"/>
+            <SizeBasedTriggeringPolicy size="1 MB"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
-        <Root level="INFO" additivity="false">
+        <Root level="info" additivity="true">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="RootLogger"/>
         </Root>
-        <Logger name="at.framework" level="fatal" additivity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
-        </Logger>
     </Loggers>
 </Configuration>
