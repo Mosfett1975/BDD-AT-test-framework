@@ -13,7 +13,6 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 public class BrowserSteps {
 
 
-//    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
     @И("^совершен переход по ссылке \"([^\"]*)\"$")
     public void openUrl(String address) {
         String url = checkValueAndReturnString(address);

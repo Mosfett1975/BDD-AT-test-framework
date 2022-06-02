@@ -4,9 +4,6 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.ru.И;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
-import net.minidev.json.*;
-
-import java.util.Map;
 
 import static at.framework.basement.variables.Variables.getVarResp;
 

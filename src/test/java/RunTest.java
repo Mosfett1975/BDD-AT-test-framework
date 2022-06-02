@@ -9,8 +9,9 @@ import org.junit.runner.RunWith;
        glue = {"at.framework"},
         plugin = {
                 "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
-                "progress",
+                "pretty",
                 "summary"
+
         }
 )
 

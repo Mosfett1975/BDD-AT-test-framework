@@ -17,5 +17,6 @@ public class DriverInit {
         Configuration.timeout = 5000;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true)
                 .savePageSource(true));
+
     }
 }
