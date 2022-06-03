@@ -7,7 +7,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 
 @Name("Для теста")
-public class doubleForTest extends WebHelper {
+public class doubleForTest  {
 
     @Name("Строка поиска1")
     @FindBy(css = "input[title='Поиск']")
