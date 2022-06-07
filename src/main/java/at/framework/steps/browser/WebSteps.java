@@ -7,6 +7,8 @@ import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 
+import java.util.concurrent.TimeoutException;
+
 import static at.framework.basement.helperClasses.UserProperty.getValueFromFileOrVar;
 import static at.framework.steps.browser.WebHelper.*;
 import static com.codeborne.selenide.Condition.text;
@@ -58,6 +60,24 @@ public class WebSteps {
         sleep(500);
     }
 
+    /**
+     * Sometimes the element does not appear immediately (for example, the result of data processing is expected),
+     * in order to avoid long waits using sleep() I suggest using this step.
+     * @param elementName
+     * @throws TimeoutException
+     */
+    @And("^waiting for the element to appear \"([^\"]*)\"$")
+    @И("^выполнено ожидание появления элемента \"([^\"]*)\"$")
+    public void waitForElement(String elementName) throws TimeoutException {
+        SelenideElement element = getElementPageFactory ( elementName );
+        int timeout = 30000;
+        while (!element.exists()) {
+            if(timeout==0){throw new TimeoutException ( "The element did not appear for 30 seconds" );}
+            sleep(1000);
+            timeout = timeout - 1000;
+        }
+    }
+
 
     /**
      * -------Work with element list------
@@ -84,6 +104,7 @@ public class WebSteps {
         ElementsCollection listOfElementsFromPage = getCollectionPageFactory ( listName );
         listOfElementsFromPage.find ( text ( value ) ).click ( );
     }
+
 
 
 

@@ -1,13 +1,11 @@
 package at.framework.steps.browser;
 
 import at.framework.basement.variables.Variables;
-import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.en.And;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 
 import static at.framework.basement.helperClasses.UserProperty.checkValueAndReturnString;
-import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
