@@ -1,12 +1,13 @@
 package at.framework.steps.browser;
 
 import at.framework.basement.variables.Variables;
+import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.en.And;
 import io.cucumber.java.ru.И;
-import io.cucumber.java.ru.Когда;
 import lombok.extern.log4j.Log4j2;
 
 import static at.framework.basement.helperClasses.UserProperty.checkValueAndReturnString;
+import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
@@ -29,7 +30,7 @@ public class BrowserSteps {
 
     @And ("^the browser is opened to full screen$")
     @И("^браузер раскрыт на весь экран$")
-    public void fullScreen() {
+    public void setFullScreen() {
         getWebDriver().manage().window().fullscreen();
     }
 

@@ -1,20 +1,18 @@
 package at.framework.basement.initDriver;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
-import org.junit.BeforeClass;
+import io.cucumber.java.BeforeAll;
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.selenide.AllureSelenide;
 
-import static com.codeborne.selenide.FileDownloadMode.PROXY;
-
 public class DriverInit {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
-        Configuration.proxyEnabled = true;
-        Configuration.proxyHost = "0.0.0.0";
-        Configuration.fileDownload = PROXY;
+        Configuration.browserSize = "1900x1080x24";
+        Configuration.browserPosition = "0x0";
         Configuration.timeout = 5000;
+        Configuration.screenshots = true;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true)
                 .savePageSource(true));
 
