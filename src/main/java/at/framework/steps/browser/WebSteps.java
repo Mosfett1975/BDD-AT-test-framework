@@ -5,10 +5,13 @@ import com.codeborne.selenide.SelenideElement;
 import io.cucumber.java.en.And;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.JavascriptExecutor;
 
 import static at.framework.basement.helperClasses.UserProperty.getValueFromFileOrVar;
 import static at.framework.steps.browser.WebHelper.*;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 @Log4j2
 public class WebSteps {
@@ -42,6 +45,17 @@ public class WebSteps {
     public void clickOnElement ( String elementName ) {
         SelenideElement element = getElementPageFactory ( elementName );
         element.click ( );
+    }
+
+    /**
+     * Scroll down to element
+     */
+    @And("^the page is scrolled until the element appears \"([^\"]*)\"$")
+    @И("^страница прокручена до появления элемента \"([^\"]*)\"$")
+    public void scrollWhileElemNotFoundOnPage(String elementName) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        (( JavascriptExecutor ) getWebDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        sleep(500);
     }
 
 
