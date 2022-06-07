@@ -1,6 +1,7 @@
 package at.framework.steps.browser;
 
 import at.framework.basement.variables.Variables;
+import com.codeborne.selenide.Configuration;
 import io.cucumber.java.en.And;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
@@ -8,6 +9,9 @@ import lombok.extern.log4j.Log4j2;
 import static at.framework.basement.helperClasses.UserProperty.checkValueAndReturnString;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.url;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @Log4j2
 public class BrowserSteps {
@@ -17,6 +21,24 @@ public class BrowserSteps {
     public void openUrl(String address) {
         String url = checkValueAndReturnString(address);
         open(url);
+    }
+
+    @And ("^URL current page equals \"([^\"]*)\"$")
+    @И("^URL текущей страницы равен \"([^\"]*)\"$")
+    public void checkForCurrentURL(String urlForCheck) {
+        urlForCheck = checkValueAndReturnString(urlForCheck);
+        String currentUrl = "";
+        int sleepTime = 100;
+        int time = 0;
+        while (time < Configuration.timeout) {
+            currentUrl = url();
+            if (currentUrl.toLowerCase().equals(urlForCheck.toLowerCase())) {
+                return;
+            }
+            sleep(sleepTime);
+            time += sleepTime;
+        }
+        assertThat("URL does not equals to the specified in parameter ", currentUrl, is(urlForCheck));
     }
 
     @And("^opened link from variable \"([^\"]*)\"$")
