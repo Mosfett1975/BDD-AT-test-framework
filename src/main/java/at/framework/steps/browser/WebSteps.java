@@ -7,11 +7,15 @@ import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 
+import java.util.List;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 import static at.framework.basement.helperClasses.UserProperty.getValueFromFileOrVar;
 import static at.framework.steps.browser.WebHelper.*;
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
@@ -72,11 +76,20 @@ public class WebSteps {
         SelenideElement element = getElementPageFactory ( elementName );
         int timeout = 30000;
         while (!element.exists()) {
-            if(timeout==0){throw new TimeoutException ( "The element did not appear for 30 seconds" );}
+            if(timeout==0){throw new TimeoutException ( "The element didn't appear for 30 seconds" );}
             sleep(1000);
             timeout = timeout - 1000;
         }
     }
+
+    @And("^element \"([^\"]*)\" displayed on the page$")
+    @И("^элемент \"([^\"]*)\" отображается на странице$")
+    public void elementDisplayed(String elementName) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        element.shouldHave(appear);
+    }
+
+
 
 
     /**

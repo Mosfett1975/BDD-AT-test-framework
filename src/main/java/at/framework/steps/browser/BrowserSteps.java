@@ -28,7 +28,7 @@ public class BrowserSteps {
     public void checkForCurrentURL(String urlForCheck) {
         urlForCheck = checkValueAndReturnString(urlForCheck);
         String currentUrl = "";
-        int sleepTime = 100;
+        int sleepTime = 500;
         int time = 0;
         while (time < Configuration.timeout) {
             currentUrl = url();
@@ -58,5 +58,11 @@ public class BrowserSteps {
     @И("^окно браузера максимизировано$")
     public void maximizedScreen() {
         getWebDriver().manage().window().maximize();
+    }
+
+    @And("^delete all cookie$")
+    @И("^удалить все куки$")
+    public void deleteAllCookie() {
+        getWebDriver ( ).manage ( ).deleteAllCookies ();
     }
 }

@@ -4,7 +4,7 @@
 Feature: Google search
   Scenario: search and click to result
 
-    And opened link "https://google.com/"
+    When opened link "https://google.com/"
     And set current page "Main page"
     And in the field "Search line" entered value "start Selenide"
     And click on button "Search button"
