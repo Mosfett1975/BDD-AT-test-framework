@@ -155,12 +155,15 @@
         <configuration>
             <perCoreThreadCount>false</perCoreThreadCount>
             <threadCount>5</threadCount>
-            <parallel>all</parallel>
+            <parallel>methods</parallel>
             <testFailureIgnore>false</testFailureIgnore>
             <argLine>
                 -Dfile.encoding=UTF-8
                 -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
             </argLine>
+            <includes>
+                <include>**/RunTest.java</include>
+            </includes>
             <systemPropertyVariables>
                 <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
             </systemPropertyVariables>

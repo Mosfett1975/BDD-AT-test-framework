@@ -1,6 +1,6 @@
 #language: en
 
-  @testEng
+  @test
 Feature: Google search
   Scenario: search and click to result
 
@@ -11,4 +11,3 @@ Feature: Google search
     And display list of elements "Results"
     And clicked to text "Quick Start - Selenide" into list "Results"
     And URL current page equals "https://selenide.org/quick-start.html"
-    And delayed by 10 seconds

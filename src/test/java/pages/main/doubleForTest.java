@@ -18,6 +18,6 @@ public class doubleForTest  {
     public SelenideElement searchButton;
 
     @Name("Результаты поиска1")
-    @FindBy(xpath = "//div[@class='bkWMgd']")
+    @FindBy(xpath = "//*[@id=\"rso\"]//h3")
     public ElementsCollection searchResult;
 }

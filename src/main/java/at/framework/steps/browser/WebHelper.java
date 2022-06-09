@@ -1,8 +1,10 @@
 package at.framework.steps.browser;
 
 import anotations.Name;
+import at.framework.basement.variables.Variables;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
@@ -13,19 +15,21 @@ import java.lang.reflect.Field;
 
 import static at.framework.basement.variables.Variables.getVarResp;
 import static at.framework.basement.variables.Variables.setVarObj;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 
 @Slf4j
 public class WebHelper  {
-    private WebHelper ( ) {
-    }
+
+
+//    WebHelper ( ) {
+//    }
+
 
     /**
      * @return get class by annotation @Name and set variable currentPage
      */
     public static void currentPageName ( String nameOfPage ) {
-        setVarObj ( "currentPage", getPageObjectClass ( nameOfPage ) );
+        setVarObj ( "currentPage"+sessionId (), getPageObjectClass ( nameOfPage ) );
     }
 
     /**
@@ -94,7 +98,7 @@ public class WebHelper  {
 
     @NotNull
     private static Field[] getFields ( ) {
-        Class < ? > clazz = ( Class < ? > ) getVarResp ( "currentPage" );
+        Class < ? > clazz = ( Class < ? > ) getVarResp ( "currentPage" + sessionId () );
         FindBy findExpression = null;
         Field[] fields = ( clazz ).getDeclaredFields ( );
         return fields;
