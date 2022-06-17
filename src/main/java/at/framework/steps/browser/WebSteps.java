@@ -7,6 +7,7 @@ import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -18,6 +19,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @Log4j2
 public class WebSteps {
@@ -52,6 +55,69 @@ public class WebSteps {
         SelenideElement element = getElementPageFactory ( elementName );
         element.click ( );
     }
+
+    @And( "^double click on (?:button|link|field|checkbox|radiobutton|text|element) \"([^\"]*)\"$" )
+    @И( "^выполнено двойное нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопку|текст|элемент) \"([^\"]*)\"$" )
+    public void doubleClickOnElement ( String elementName ) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        element.doubleClick ();
+    }
+
+    @And( "^select radiobutton \"([^\"]*)\" with value \"([^\"]*)\"$" )
+    @И( "^выбрать радиокнопку \"([^\"]*)\" со значением \"([^\"]*)\"$" )
+    public void selectRadiobutton ( String elementName, String value ) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        value = getValueFromFileOrVar ( value );
+        element.selectRadio (value);
+    }
+
+    @And( "^toggle radiobutton \"([^\"]*)\" to \"([^\"]*)\"$" )
+    @И( "^переключить радиокнопку \"([^\"]*)\" в состояние \"([^\"]*)\"$" )
+    public void toggleRadiobutton ( String elementName, boolean status ) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        element.setSelected ( status );
+    }
+
+    @And( "^text in the field \"([^\"]*)\" equals to text \"([^\"]*)\"$" )
+    @И( "^значение из поля \"([^\"]*)\" равно тексту \"([^\"]*)\"$" )
+    public void equalText ( String elementName, String compareText ) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        compareText = getValueFromFileOrVar ( compareText );
+        if (!element.equals ( compareText )){
+            assertThat("Compared texts are not equal ", element, is(compareText));
+        }
+    }
+
+    @And( "^in the field \"([^\"]*)\" the current date is entered in the format \"([^\"]*)\"$" )
+    @И( "^в поле \"([^\"]*)\" введена текущая дата в формате \"([^\"]*)\"$" )
+    public void setCurrentDate ( String elementName, String dateFormat ) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        String stringDate;
+        long rawDate = System.currentTimeMillis ();
+        try {
+            stringDate = new SimpleDateFormat (dateFormat).format(rawDate);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException ( "Date format is not valid" );
+        }
+        element.clear ();
+        element.setValue ( stringDate );
+    }
+
+    @And( "^in the field \"([^\"]*)\" the current date is entered in the format \"([^\"]*)\"$" )
+    @И( "^в поле \"([^\"]*)\" введена текущая дата в формате \"([^\"]*)\"$" )
+    public void setCurrentTime ( String elementName, String dateFormat ) {
+        SelenideElement element = getElementPageFactory ( elementName );
+        String stringDate;
+        long rawDate = System.currentTimeMillis ();
+        try {
+            stringDate = new SimpleDateFormat (dateFormat).format(rawDate);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException ( "Date format is not valid" );
+        }
+        element.clear ();
+        element.setValue ( stringDate );
+    }
+
 
     /**
      * Scroll down to element

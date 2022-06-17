@@ -60,7 +60,7 @@ public class BrowserSteps {
         getWebDriver().manage().window().maximize();
     }
 
-    @And("^delete all cookie$")
+    @And("^delete all cookies$")
     @И("^удалить все куки$")
     public void deleteAllCookie() {
         getWebDriver ( ).manage ( ).deleteAllCookies ();
